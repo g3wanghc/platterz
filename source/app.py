@@ -43,6 +43,7 @@ def api():
 def callback():
     content = dict(request.form)['payload']
 
+    print(content)
     user = content['user']['id']
     value = 0
 
