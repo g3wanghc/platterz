@@ -28,6 +28,7 @@ def make_response(prompt_question, attachments_arr):
 		attachments.append(attachment)
 
 	response = {
+                'response_type': in_channel,
 		'text': prompt_question,
 		'attachments': attachments
 	}
