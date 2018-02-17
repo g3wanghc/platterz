@@ -85,7 +85,7 @@ def callback():
         "fields": [
             {
                 "title": "Volume",
-                "value": count,
+                "value": cache["count"],
             }
         ]
     }
