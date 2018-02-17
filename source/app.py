@@ -42,9 +42,13 @@ def api():
 
 @app.route('/interaction', methods=['POST'])
 def callback():
+    print('in callback')
     content = json.loads(dict(request.form)['payload'][0])
+    print(content)
 
     user = content['user']['id']
+    print('user ', user)
+
     value = 0
 
     if user in cache:
@@ -53,8 +57,10 @@ def callback():
         cache[user][name] = value
 
         value += 1
+        print('updated value: ', value)
     else:
         cache[user] = {}
+        print('user cached')
 
     action_1 = [
         make_action('food', 'apple'),
@@ -89,8 +95,11 @@ def callback():
     attach_3 = make_attachment('Choose a spicyness: ', 'callback_id_spicyness', action_3)
 
     attachments = [meta_data, attach_1, attach_2, attach_3]
+    print('created attatchement')
 
     r = make_response('Dietary Prefrences: ', attachments)
+    print('created response')
+
     return jsonify(r)
 
 if __name__ == '__main__':
