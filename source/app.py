@@ -9,7 +9,9 @@ from helpers import *
 
 app = Flask(__name__)
 
-cache = {}
+cache = {
+    "count": 0
+}
 
 @app.route('/api', methods=['POST'])
 def api():
@@ -49,15 +51,13 @@ def callback():
     user = content['user']['id']
     print('user ', user)
 
-    count = 0
-
     if user in cache:
         name = content['actions'][0]['name']
         value = content['actions'][0]['value']
         cache[user][name] = value
-        print('updating value: ', count)
-        count += 1
-        print('updated value: ', count)
+        print('updating value: ', cache["count"])
+        cache.count += 1
+        print('updated value: ', cache["count"])
     else:
         cache[user] = {}
         print('user cached')
