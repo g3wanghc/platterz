@@ -35,3 +35,7 @@ def hello_world():
     r = make_response('Dietary preferences: ', attachments)
 
     return json.dumps(r).replace("\'", "\"")
+
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
