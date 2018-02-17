@@ -1,6 +1,7 @@
 import os
 import requests
 import json
+import sets
 
 from flask import Flask, jsonify
 from flask import request, url_for
@@ -10,36 +11,66 @@ from helpers import *
 app = Flask(__name__)
 
 cache = {
-    "count": 0
+    "is_active": True,
+    "in_channel": False,
+    "is_admin": True,
+    "admin": {},
+    "users": {
+        "in": set(),
+        "out": set(),
+    },
+    "restaurant": {},
+    "restaurant_list": [
+        {
+            "id": 84,
+            "restaurant_id": "120",
+            "name": "California Sandwiches",
+            "name_slug": "california-sandwiches",
+            "slug": "downtown-435-yonge-st"
+        },
+        {
+            "id": 190,
+            "restaurant_id": "205",
+            "name": "Presse Cafe",
+            "name_slug": "presse-cafe",
+            "slug": "bloor-st-85-bloor-st-e"
+        },
+        {
+            "id": 102,
+            "restaurant_id": "68",
+            "name": "Craft Kitchen",
+            "name_slug": "craft-kitchen",
+            "slug": "bloor-st-85-st-e"
+        },
+    ]
 }
 
 @app.route('/api', methods=['POST'])
 def api():
-    action_1 = [
-        make_action('food', 'apple'),
-        make_action('food', 'oranges'),
-        make_action('food', 'bananas'),
+    # action_1 = [
+    #     make_action('food', 'apple'),
+    #     make_action('food', 'oranges'),
+    #     make_action('food', 'bananas'),
+    # ]
+
+    # action_2 = [
+    #     make_action('colour', 'red'),
+    #     make_action('colour', 'yellow'),
+    #     make_action('colour', 'blue'),
+    # ]
+
+    action = [
+        make_action('restaurant', restaurant['name'])
+        for restaurant in cache['restaurant_list']
     ]
 
-    action_2 = [
-        make_action('colour', 'red'),
-        make_action('colour', 'yellow'),
-        make_action('colour', 'blue'),
-    ]
+    attach_1 = make_attachment('Choose a place: ', 'callback_id_food', action)
+    # attach_2 = make_attachment('Choose a colour: ', 'callback_id_colour', action_2)
+    # attach_3 = make_attachment('Choose a spicyness: ', 'callback_id_spicyness', action_3)
 
-    action_3 = [
-        make_action('spicyness', 'extreme'),
-        make_action('spicyness', 'hot'),
-        make_action('spicyness', 'mild'),
-    ]
+    attachments = [attach_1]
 
-    attach_1 = make_attachment('Choose a food: ', 'callback_id_food', action_1)
-    attach_2 = make_attachment('Choose a colour: ', 'callback_id_colour', action_2)
-    attach_3 = make_attachment('Choose a spicyness: ', 'callback_id_spicyness', action_3)
-
-    attachments = [attach_1, attach_2, attach_3]
-
-    r = make_response('Dietary Prefrences: ', attachments)
+    r = make_response('Choose a restaurant', attachments)
     return jsonify(r)
 
 @app.route('/interaction', methods=['POST'])
@@ -55,9 +86,6 @@ def callback():
         name = content['actions'][0]['name']
         value = content['actions'][0]['value']
         cache[user][name] = value
-        print('updating value: ', cache["count"])
-        cache["count"] += 1
-        print('updated value: ', cache["count"])
     else:
         cache[user] = {}
         print('user cached')
@@ -84,8 +112,8 @@ def callback():
         "title": "Testing clicks",
         "fields": [
             {
-                "title": "Volume",
-                "value": cache["count"],
+                "title": "Attending",
+                "value": len(cache["users"]["in"]),
             }
         ]
     }
@@ -97,7 +125,7 @@ def callback():
     attachments = [meta_data, attach_1, attach_2, attach_3]
     print('created attatchement')
 
-    r = make_response('Dietary Prefrences: ', attachments)
+    r = make_response('Dietary Prefrences: ', attachments, in_channel=True)
     print('created response')
 
     return jsonify(r)
