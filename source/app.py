@@ -42,7 +42,7 @@ def api():
 @app.route('/interaction', methods=['POST'])
 def callback():
     print("get request")
-    content = request.data
+    content = request.get_data()
     print(content)
     print('--------------------------')
     print(request)
