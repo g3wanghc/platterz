@@ -43,6 +43,7 @@ def api():
 def callback():
     print("get request")
     content = request.get_data()
+    print(request.form)
     print(content)
     print('--------------------------')
     print(request)
