@@ -36,10 +36,8 @@ def api():
 
     attachments = [attach_1, attach_2, attach_3]
 
-    response = json.dumps(make_response('Dietary preferences: ', attachments)).replace("\'", "\"")
-
-    # r = requests.post('', data = response)
-    return jsonify(request.get_json())
+    r = make_response('Dietary Prefrences: ', attachments)
+    return jsonify(r)
 
 @app.route('/callback', methods=['POST'])
 def callback():
