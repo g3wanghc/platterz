@@ -12,6 +12,20 @@ cache = {}
 
 @app.route('/api', methods=['POST'])
 def api():
+    content = request.get_json()
+
+    user = content['user']['id'];
+    value = 0
+
+    if user in cache:
+        name = content['actions']['name']
+        value = content['actions']['value']
+        cache[user][name] = value
+
+        value += 1
+    else:
+        cache[user] = {}
+
     action_1 = [
         make_action('food', 'apple'),
         make_action('food', 'oranges'),
@@ -30,21 +44,24 @@ def api():
         make_action('spicyness', 'mild'),
     ]
 
+    meta_data = {
+        "title": "Testing clicks",
+        "fields": [
+            {
+                "title": "Volume",
+                "value": value,
+            }
+        ]
+    }
+
     attach_1 = make_attachment('Choose a food: ', 'callback_id_food', action_1)
     attach_2 = make_attachment('Choose a colour: ', 'callback_id_colour', action_2)
     attach_3 = make_attachment('Choose a spicyness: ', 'callback_id_spicyness', action_3)
 
-    attachments = [attach_1, attach_2, attach_3]
+    attachments = [meta_data, attach_1, attach_2, attach_3] * times_called
 
-    response = json.dumps(make_response('Dietary preferences: ', attachments)).replace("\'", "\"")
-
-    # r = requests.post('', data = response)
-    return jsonify(request.get_json())
-
-@app.route('/callback', methods=['POST'])
-def callback():
-    content = request.get_json()
-    return jsonify(content)
+    r = make_response('Dietary preferences: ', attachments)
+    return jsonify(r)
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))

@@ -5,7 +5,7 @@ def make_action(name, text):
 		'name': name,
 		'text': text,
 		'type': 'button',
-		'value': ''.join([c for c in text.lower() if c.isalnum()])
+		'value': text
 	}
 	return button
 
@@ -17,7 +17,8 @@ def make_attachment(attachement_prompt, callback_id, actions_arr):
 	attachment = {
 		'text': attachement_prompt,
 		'callback_id': callback_id,
-		'actions': actions
+		'actions': actions,
+		'value': 'bananas'
 	}
 	return attachment
 
