@@ -48,8 +48,8 @@ def callback():
     value = 0
 
     if user in cache:
-        name = content['actions']['name']
-        value = content['actions']['value']
+        name = content['actions'][0]['name']
+        value = content['actions'][0]['value']
         cache[user][name] = value
 
         value += 1
