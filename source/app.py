@@ -1,7 +1,6 @@
 import os
 import requests
 import json
-import sets
 
 from flask import Flask, jsonify
 from flask import request, url_for
