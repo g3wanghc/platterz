@@ -5,6 +5,8 @@ from helpers import *
 
 app = Flask(__name__)
 
+cache = {}
+
 @app.route('/')
 def hello_world():
 
@@ -27,9 +29,7 @@ def hello_world():
     ]
 
     attach_1 = make_attachment('Choose a food: ', 'callback_id_food', action_1)
-
     attach_2 = make_attachment('Choose a colour: ', 'callback_id_colour', action_2)
-
     attach_3 = make_attachment('Choose a spicyness: ', 'callback_id_spicyness', action_3)
 
     attachments = [attach_1, attach_2, attach_3]
