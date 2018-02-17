@@ -49,15 +49,15 @@ def callback():
     user = content['user']['id']
     print('user ', user)
 
-    value = 0
+    count = 0
 
     if user in cache:
         name = content['actions'][0]['name']
         value = content['actions'][0]['value']
         cache[user][name] = value
-
-        value += 1
-        print('updated value: ', value)
+        print('updating value: ', count)
+        count += 1
+        print('updated value: ', count)
     else:
         cache[user] = {}
         print('user cached')
@@ -85,7 +85,7 @@ def callback():
         "fields": [
             {
                 "title": "Volume",
-                "value": value,
+                "value": count,
             }
         ]
     }
