@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask
+from flask import Flask, jsonify
 from helpers import *
 
 app = Flask(__name__)
@@ -36,7 +36,7 @@ def hello_world():
 
     r = make_response('Dietary preferences: ', attachments)
 
-    return json.dumps(r).replace("\'", "\"")
+    return jsonify(r)
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
