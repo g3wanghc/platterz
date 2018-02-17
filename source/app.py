@@ -1,15 +1,17 @@
 import os
+import requests
 
-from flask import Flask
+from flask import Flask, jsonify
+from flask import request, url_for
+
 from helpers import *
 
 app = Flask(__name__)
 
 cache = {}
 
-@app.route('/')
-def hello_world():
-
+@app.route('/api', methods=['POST'])
+def api():
     action_1 = [
         make_action('food', 'apple'),
         make_action('food', 'oranges'),
@@ -34,9 +36,15 @@ def hello_world():
 
     attachments = [attach_1, attach_2, attach_3]
 
-    r = make_response('Dietary preferences: ', attachments)
+    response = json.dumps(make_response('Dietary preferences: ', attachments)).replace("\'", "\"")
 
-    return json.dumps(r).replace("\'", "\"")
+    # r = requests.post('', data = response)
+    return jsonify(request.get_json())
+
+@app.route('/callback', methods=['POST'])
+def callback():
+    content = request.get_json()
+    return jsonify(content)
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
