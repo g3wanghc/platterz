@@ -41,7 +41,7 @@ def api():
 
 @app.route('/interaction', methods=['POST'])
 def callback():
-    content = dict(request.form)['payload'][0]
+    content = dict(request.form['payload'][0])
 
     user = content['user']['id']
     value = 0
