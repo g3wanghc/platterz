@@ -1,12 +1,11 @@
 import os
 
-from slackclient import SlackClient
 from flask import Flask
 from helpers import *
 
 app = Flask(__name__)
 
-@app.route('/slash/entry')
+@app.route('/')
 def hello_world():
 
     action_1 = [
