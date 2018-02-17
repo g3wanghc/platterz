@@ -34,7 +34,7 @@ def api():
     attach_2 = make_attachment('Choose a colour: ', 'callback_id_colour', action_2)
     attach_3 = make_attachment('Choose a spicyness: ', 'callback_id_spicyness', action_3)
 
-    attachments = [attach_1, attach_2, attach_3] * times_called
+    attachments = [attach_1, attach_2, attach_3]
 
     r = make_response('Dietary Prefrences: ', attachments)
     return jsonify(r)
@@ -87,7 +87,7 @@ def callback():
     attach_2 = make_attachment('Choose a colour: ', 'callback_id_colour', action_2)
     attach_3 = make_attachment('Choose a spicyness: ', 'callback_id_spicyness', action_3)
 
-    attachments = [meta_data, attach_1, attach_2, attach_3] * times_called
+    attachments = [meta_data, attach_1, attach_2, attach_3]
 
     r = make_response('Dietary Prefrences: ', attachments)
     return jsonify(r)
