@@ -56,7 +56,7 @@ def callback():
         value = content['actions'][0]['value']
         cache[user][name] = value
         print('updating value: ', cache["count"])
-        cache.count += 1
+        cache["count"] += 1
         print('updated value: ', cache["count"])
     else:
         cache[user] = {}
