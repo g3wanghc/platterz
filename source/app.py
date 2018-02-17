@@ -42,8 +42,10 @@ def api():
 @app.route('/interaction', methods=['POST'])
 def callback():
     print("get request")
-    content = request.get_json()
+    content = request.data
     print(content)
+    print('--------------------------')
+    print(request)
     print("got request")
     user = content['user']['id'];
     print("got request 2")
