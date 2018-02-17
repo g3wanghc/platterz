@@ -60,8 +60,13 @@ def api():
 
     attachments = [meta_data, attach_1, attach_2, attach_3] * times_called
 
-    r = make_response('Dietary preferences: ', attachments)
+    r = make_response('Dietary Prefrences: ', attachments)
     return jsonify(r)
+
+@app.route('/callback', methods=['POST'])
+def callback():
+    content = request.get_json()
+    return jsonify(content)
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
