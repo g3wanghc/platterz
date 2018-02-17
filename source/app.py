@@ -43,7 +43,7 @@ def api():
 def callback():
     content = dict(request.form)['payload']
 
-    user = content['user']['id'];
+    user = content['user']['id']
     value = 0
 
     if user in cache:
